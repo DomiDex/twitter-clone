@@ -1,14 +1,14 @@
-import axios from 'axios';
-import { jwtDecode } from 'jwt-decode';
 import { useEffect, useState } from 'react';
 import { Button, Col, Image, Row } from 'react-bootstrap';
+import jwt_decode from 'jwt-decode';
+import axios from 'axios';
 
 export default function ProfilePostCard({ content, postId }) {
   const [likes, setLikes] = useState([]);
 
   // Decoding to get the userId
   const token = localStorage.getItem('authToken');
-  const decode = jwtDecode(token);
+  const decode = jwt_decode(token);
   const userId = decode.id;
 
   const pic =
@@ -41,13 +41,11 @@ export default function ProfilePostCard({ content, postId }) {
 
   const removeFromLikes = () => {
     const like = likes.find((like) => like.user_id === userId);
+    console.log(like);
     if (like) {
       axios
-        .put(`${BASE_URL}/likes/${userId}/${postId}`) // Include userId and postId in the URL
-        .then(() => {
-          // Update the state to reflect the removal of the like
-          setLikes(likes.filter((likeItem) => likeItem.user_id !== userId));
-        })
+        .put(`${BASE_URL}/likes/${like.likes_id}`)
+        .then(() => setLikes(likes.filter((like) => like.user_id !== userId)))
         .catch((error) => console.error('Error:', error));
     }
   };
@@ -63,10 +61,9 @@ export default function ProfilePostCard({ content, postId }) {
       <Col sm={1}>
         <Image src={pic} fluid roundedCircle />
       </Col>
-
       <Col>
         <strong>Haris</strong>
-        <span> @haris.samingan · Apr 16</span>
+        <span> @haris.samingnan · Apr 16</span>
         <p>{content}</p>
         <div className='d-flex justify-content-between'>
           <Button variant='light'>
@@ -84,7 +81,7 @@ export default function ProfilePostCard({ content, postId }) {
             {likes.length}
           </Button>
           <Button variant='light'>
-            <i className='bi bi-graph-up'></i>
+            <i className='bi bi-graph-up'></i> 61
           </Button>
           <Button variant='light'>
             <i className='bi bi-upload'></i>
