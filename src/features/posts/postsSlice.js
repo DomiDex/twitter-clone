@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-import jwtDecode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 
 const BASE_URL =
   'https://twitter-api-sigmaschooltech.sigma-school-full-stack.repl.co';
@@ -17,8 +17,8 @@ export const savePost = createAsyncThunk(
   'posts/savePost',
   async (postContent) => {
     const token = localStorage.getItem('authToken');
-    const decode = jwtDecode(token);
-    const userId = decode.id;
+    const decoded = jwtDecode(token);
+    const userId = decoded.id;
 
     const data = {
       title: 'post title',

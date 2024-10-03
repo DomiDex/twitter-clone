@@ -1,4 +1,4 @@
-import jwtDecode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import { useEffect } from 'react';
 import { Button, Col, Image, Nav, Row, Spinner } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,8 +17,8 @@ export default function ProfileMidBody() {
   // useEffect(() => {
   //   const token = localStorage.getItem("authToken");
   //   if (token) {
-  //     const decodedToken = jwtDecode(token);
-  //     const userId = decodedToken.id;
+  //     const decoded = jwtDecode(token);
+  //     const userId = decoded.id;
   //     console.log(userId);
   //     dispatch(fetchPostsByUser(userId));
   //   }

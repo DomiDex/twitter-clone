@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
-import { Button, Col, Image, Row } from 'react-bootstrap';
-import jwt_decode from 'jwt-decode';
+import { useState, useEffect } from 'react';
+import { Card, Button } from 'react-bootstrap';
+import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
 
 export default function ProfilePostCard({ content, postId }) {
@@ -8,7 +8,7 @@ export default function ProfilePostCard({ content, postId }) {
 
   // Decoding to get the userId
   const token = localStorage.getItem('authToken');
-  const decode = jwt_decode(token);
+  const decode = jwtDecode(token);
   const userId = decode.id;
 
   const pic =

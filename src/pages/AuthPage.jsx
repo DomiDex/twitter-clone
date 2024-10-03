@@ -5,7 +5,7 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
 } from 'firebase/auth';
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { Button, Col, Form, Image, Modal, Row } from 'react-bootstrap';
 import { AuthContext } from '../components/AuthProvider';
 import { useNavigate } from 'react-router-dom';
@@ -23,7 +23,11 @@ export default function AuthPage() {
   const { currentUser } = useContext(AuthContext);
   const provider = new GoogleAuthProvider();
 
-  if (currentUser) navigate('/profile');
+  useEffect(() => {
+    if (currentUser) {
+      navigate('/profile');
+    }
+  }, [currentUser, navigate]);
 
   const handleSignUp = async (e) => {
     e.preventDefault();

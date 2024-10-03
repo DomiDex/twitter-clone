@@ -5,7 +5,6 @@ import { savePost } from '../features/posts/postsSlice';
 
 export default function NewPostModal({ show, handleClose }) {
   const [postContent, setPostContent] = useState('');
-  const dispatch = useDispatch();
 
   const handleSave = () => {
     dispatch(savePost(postContent));

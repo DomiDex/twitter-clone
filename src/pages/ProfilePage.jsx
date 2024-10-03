@@ -11,13 +11,19 @@ export default function ProfilePage() {
   const auth = getAuth();
   const [authToken, setAuthToken] = useLocalStorage('authToken', '');
   const navigate = useNavigate();
-  if (!currentUser) {
-    navigate('/login');
-  }
+  const { currentUser } = useContext(AuthContext);
+
+  useEffect(() => {
+    if (!currentUser) {
+      navigate('/login');
+    }
+  }, [currentUser, navigate]);
 
   const handleLogout = () => {
     auth.signOut();
   };
+
+  if (!currentUser) return null; // or a loading spinner
 
   return (
     <>
