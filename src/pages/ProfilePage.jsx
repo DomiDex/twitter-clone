@@ -1,30 +1,18 @@
-import { useEffect, useContext } from 'react';
-import { Container, Row } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
-import useLocalStorage from 'use-local-storage';
-import ProfileMidBody from '../components/ProfileMidBody';
-import ProfileSideBar from '../components/ProfileSideBar';
-import { getAuth } from 'firebase/auth';
-import { AuthContext } from '../components/AuthProvider';
+import { getAuth } from "firebase/auth";
+import { useContext } from "react";
+import { Container, Row } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../components/AuthProvider";
+import ProfileMidBody from "../components/ProfileMidBody";
+import ProfileSideBar from "../components/ProfileSideBar";
 
 export default function ProfilePage() {
   const auth = getAuth();
-  const [authToken, setAuthToken] = useLocalStorage('authToken', '');
   const navigate = useNavigate();
   const { currentUser } = useContext(AuthContext);
 
-  useEffect(() => {
-    if (!currentUser) {
-      navigate('/login');
-    }
-  }, [currentUser, navigate]);
-
-  const handleLogout = () => {
-    auth.signOut();
-  };
-
-  if (!currentUser) return null; // or a loading spinner
-
+  if (!currentUser) navigate("/login");
+  const handleLogout = () => auth.signOut();
   return (
     <>
       <Container>

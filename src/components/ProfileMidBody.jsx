@@ -1,8 +1,8 @@
-import { jwtDecode } from 'jwt-decode';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { Button, Col, Image, Nav, Row, Spinner } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPostsByUser } from '../features/posts/postsSlice';
+import { AuthContext } from './AuthProvider';
 import ProfilePostCard from './ProfilePostCard';
 
 export default function ProfileMidBody() {
@@ -11,19 +11,14 @@ export default function ProfileMidBody() {
   const pic =
     'https://pbs.twimg.com/profile_images/1587405892437221376/h167Jlb2_400x400.jpg';
 
+  const dispatch = useDispatch();
   const posts = useSelector((state) => state.posts.posts);
   const loading = useSelector((state) => state.posts.loading);
+  const { currentUser } = useContext(AuthContext);
 
-  // useEffect(() => {
-  //   const token = localStorage.getItem("authToken");
-  //   if (token) {
-  //     const decoded = jwtDecode(token);
-  //     const userId = decoded.id;
-  //     console.log(userId);
-  //     dispatch(fetchPostsByUser(userId));
-  //   }
-  // }, [dispatch]);
-
+  useEffect(() => {
+    dispatch(fetchPostsByUser(currentUser.uid));
+  }, [dispatch, currentUser]);
   return (
     <Col sm={6} className='bg-light' style={{ border: '1px solid lightgrey' }}>
       <Image src={url} fluid />
@@ -80,11 +75,7 @@ export default function ProfileMidBody() {
         <Spinner animation='border' className='ms-3 mt-3' variant='primary' />
       )}
       {posts.map((post) => (
-        <ProfilePostCard
-          key={post.id}
-          content={post.content}
-          postId={post.id}
-        />
+        <ProfilePostCard key={post.id} post={post} />
       ))}
     </Col>
   );
